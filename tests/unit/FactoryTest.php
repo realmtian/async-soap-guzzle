@@ -8,13 +8,12 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Laminas\Diactoros\RequestFactory;
 use Laminas\Diactoros\StreamFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function nonWsdlMode()
     {
         $factory = new Factory();
@@ -23,9 +22,7 @@ class FactoryTest extends TestCase
         $this->assertTrue($client instanceof SoapClient);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wsdlFromHttpUrl()
     {
         $handlerMock = new MockHandler([
@@ -40,9 +37,7 @@ class FactoryTest extends TestCase
         $this->assertTrue($client instanceof SoapClient);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wsdlFromLocalFile()
     {
         $factory = new Factory();
@@ -51,9 +46,7 @@ class FactoryTest extends TestCase
         $this->assertTrue($client instanceof SoapClient);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function wsdlFromDataUri()
     {
         $wsdlString = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'example.wsdl');
