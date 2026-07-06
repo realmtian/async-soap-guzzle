@@ -15,7 +15,12 @@ composer require meng-tian/async-soap-guzzle:^0.4.2
 ```
 
 ## Usage
-From [v0.4.0](https://github.com/meng-tian/async-soap-guzzle/tree/v0.4.0) or newer, an instance of `Psr\Http\Message\RequestFactoryInterface` and an instance of `Psr\Http\Message\StreamFactoryInterface` need to be injected into `Meng\AsyncSoap\Guzzle\Factory`. These two interfaces are defined in [PSR-17](https://www.php-fig.org/psr/psr-17/) to create [PSR-7](https://www.php-fig.org/psr/psr-7/) compliant HTTP instances. This change will decouple this library from any specific implementation of PSR-7 and PSR-17. Clients can determine which implementation of PSR-17 they want to use. Plenty of different implementations of PSR17 can be found from [Packagist](https://packagist.org/?query=psr-17), e.g., `symfony/psr-http-message-bridge`, or `laminas/laminas-diactoros`.
+An instance of `Psr\Http\Message\RequestFactoryInterface` and an instance of
+`Psr\Http\Message\StreamFactoryInterface` are injected into
+`Meng\AsyncSoap\Guzzle\Factory`. These interfaces are defined by
+[PSR-17](https://www.php-fig.org/psr/psr-17/) and create
+[PSR-7](https://www.php-fig.org/psr/psr-7/) HTTP messages. Choose any PSR-17
+implementation, such as `laminas/laminas-diactoros`.
 
 1. Install a PSR-17 implementation if your application does not already provide one:
 ```json
