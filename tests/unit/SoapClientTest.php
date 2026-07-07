@@ -14,6 +14,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use Meng\Soap\HttpBinding\HttpBinding;
 use Meng\Soap\HttpBinding\RequestException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SoapClientTest extends TestCase
@@ -38,13 +39,11 @@ class SoapClientTest extends TestCase
 
         $this->httpBindingMock = $this->getMockBuilder(HttpBinding::class)
             ->disableOriginalConstructor()
-            ->setMethods(['request', 'response'])
+            ->onlyMethods(['request', 'response'])
             ->getMock();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCallDeferredHttpBindingRejected()
     {
         $this->httpBindingPromise = new RejectedPromise(new \Exception());
@@ -55,9 +54,7 @@ class SoapClientTest extends TestCase
         $client->someSoapMethod(['some-key' => 'some-value'])->wait();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCallHttpBindingFailed()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);
@@ -77,9 +74,7 @@ class SoapClientTest extends TestCase
         $client->someSoapMethod(['some-key' => 'some-value'])->wait();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCall500Response()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);
@@ -107,9 +102,7 @@ class SoapClientTest extends TestCase
         $this->assertEquals('SoapResult', $client->someSoapMethod(['some-key' => 'some-value'])->wait());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCallResponseNotReceived()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);
@@ -131,9 +124,7 @@ class SoapClientTest extends TestCase
         $client->someSoapMethod(['some-key' => 'some-value'])->wait();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCallUndefinedResponse()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);
@@ -156,9 +147,7 @@ class SoapClientTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCallClientReturnSoapFault()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);
@@ -187,9 +176,7 @@ class SoapClientTest extends TestCase
         $client->someSoapMethod(['some-key' => 'some-value'])->wait();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function magicCallSuccess()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);
@@ -217,9 +204,7 @@ class SoapClientTest extends TestCase
         $this->assertEquals('SoapResult', $client->someSoapMethod(['some-key' => 'some-value'])->wait());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resultsAreEquivalent()
     {
         $this->httpBindingPromise = new FulfilledPromise($this->httpBindingMock);

@@ -1,39 +1,44 @@
 <?php
 
 use GuzzleHttp\Client;
+use Laminas\Diactoros\RequestFactory;
+use Laminas\Diactoros\StreamFactory;
 use Meng\AsyncSoap\Guzzle\Factory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
-class SoapClientTest extends PHPUnit_Framework_TestCase
+class SoapClientTest extends TestCase
 {
     /** @var  Factory */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = new Factory();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function call()
     {
         $client = $this->factory->create(
             new Client(),
+            new StreamFactory(),
+            new RequestFactory(),
             'http://www.webservicex.net/Statistics.asmx?WSDL'
         );
         $response = $client->call('GetStatistics', [['X' => [1,2,3]]]);
         $this->assertNotEmpty($response);
     }
 
-    /**
-     * @test
-     * @dataProvider webServicesProvider
-     */
+    #[Test]
+    #[DataProvider('webServicesProvider')]
     public function callAsync($wsdl, $options, $function, $args, $contains)
     {
         $client = $this->factory->create(
             new Client(),
+            new StreamFactory(),
+            new RequestFactory(),
             $wsdl,
             $options
         );
@@ -44,7 +49,7 @@ class SoapClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function webServicesProvider()
+    public static function webServicesProvider(): array
     {
         return [
             [

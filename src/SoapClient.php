@@ -25,13 +25,13 @@ class SoapClient implements SoapClientInterface
         return $this->callAsync($name, $arguments);
     }
 
-    public function call($name, array $arguments, array $options = null, $inputHeaders = null, array &$outputHeaders = null)
+    public function call($name, array $arguments, ?array $options = null, $inputHeaders = null, ?array &$outputHeaders = null)
     {
         $callPromise = $this->callAsync($name, $arguments, $options, $inputHeaders, $outputHeaders);
         return $callPromise->wait();
     }
 
-    public function callAsync($name, array $arguments, array $options = null, $inputHeaders = null, array &$outputHeaders = null)
+    public function callAsync($name, array $arguments, ?array $options = null, $inputHeaders = null, ?array &$outputHeaders = null)
     {
         return \GuzzleHttp\Promise\Coroutine::of(
             function () use ($name, $arguments, $options, $inputHeaders, &$outputHeaders) {
